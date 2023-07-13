@@ -1,9 +1,20 @@
 git init -> инициализация git репозитория
 git rm --cached <file> -> удаление файла из git status (untracked)
 git restore -> возвращает состояние файла (если он был добавлен коммандой add)
+
 git branch -> показывает все ветки
 git branch test -> cоздает ветку тест
 git branch -D test -> удаляет ветку тест
+git branch -M <новое имя> -> меняет имя текущей ветки
+
 git checkout <имя ветки> -> переключает на выбранную ветку
 git checkout -b <имя ветки> -> создает и переключается на ветку
+git merge <название ветки> -> делает merge текущей ветки с выбранной
+
+git config --global user.name "новое имя" -> меняет имя
+git config --global user.email "новый email" -> меняет email
+git remote add origin <ссылка на репозиторий> -> связывает локальный
+репозиторий с репозиторием на гитхаб
+git push -u origin <ветка> -> добавление в гитхаб
+git pull -> забирает все изменения из репозитория на гитхабе и добавляет их
 
