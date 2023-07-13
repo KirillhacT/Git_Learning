@@ -1,0 +1,5 @@
+git init -> инициализация git репозитория
+git rm --cached <file> -> удаление файла из git status (untracked)
+git restore -> возвращает состояние файла (если он был добавлен коммандой add)
+
+
