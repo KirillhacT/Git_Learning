@@ -1,0 +1,60 @@
+Числовые типы:
+    1. Целочисленные
+    2. Фикс. точности
+    3. С плавающей точкой
+    4. serial (фактически не является типом)
+1. Целочисленные: smallint(2b), integer(4b), bigint(8b)
+2. Фикс. точности: numeral, decimal
+3. С плавающей точкой: real, float, double
+
+
+Текстовые типы: char(n), varchar(n), text
+
+
+Типы даты и времени: 
+    date: yyyy-mm-dd
+    time: 00:00:00
+    timetz: 00:00:00.<offset>
+    timestamp: ???
+    timestamptz: ???
+    interval: ???
+
+
+Логический тип (boolean): TRUE, FALSE
+
+
+Массивы:
+    integer[]
+exampe:
+    creating ->
+    CREATE TABLE test 
+    (   
+        number integer[]
+    );
+
+    insert ->
+    INSERT INTO test VALUES ('{1, 2, 3}'::integer[])
+
+    extend -> (1, 2, 3) -- (1, 2, 3, 33)
+    UPDATE test3 SET numeral = numeral || 33 
+    WHERE keyi = 'kek'
+    
+    work -> 
+    SET numeral[0] = 2, numeral[1] = 5
+    SET numeral[0:2] = ARRAY[2, 3]
+
+JSON:
+    json - вставка быстрее вначале
+    jsonb - вставка быстрее после
+    example ->
+    INSERT INTO test4 VALUES ('1', '{"name": "aboba","key": 1}'::jsonb)
+
+    find -> В данном случае ищем записи с key == 1
+    SELECT * FROM test4 WHERE container @> '{"key": 1}'::jsonb
+
+    checking key -> В данном случае выводим кол-во записей в json, где есть ключ 'name'
+    SELECT count(*) FROM test4 WHERE container ? 'name'
+    
+    update -> Добавляем данные в json определенной записи
+    UPDATE test4 SET container = container || '{"mag": true}' WHERE id = 4
+

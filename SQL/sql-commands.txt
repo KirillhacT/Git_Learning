@@ -1,0 +1,86 @@
+general commands:
+CREATE TABLE <table name> (params);
+INSERT INTO <table name> (params) VALUES (values)
+SELECT <rows> FROM <table name>
+UPDATE <table name> SET <old_param> = <new_value> WHERE <condition>
+DROP TABLE <table name>
+DELETE FROM <table name> WHERE <condition>
+
+key words:
+CHECK (condition) -> проверка валидности новой записи
+NOT NULL -> означает, что запись не может быть пустой
+UNIQUE [уникальный ключ] -> все значения в столбце уникальны
+DEFAULT (value) -> выставляет значение по умолчанию
+PRIMARY KEY -> 
+REFERENCES (table_name) [внешний ключ] -> связывает поле с полем другой таблицы
+альтернативная запись REFERENCES:
+	FOREIGN KEY (row_name)
+		REFERENCES (table_name) (row_name)
+		{delete type}
+
+delete types:
+ON CASCADE -> при удалении элемента, на которого ссылаемся, удаляются и соответствующие поля
+ON DELETE RESTRICT, ON DELETE NO ACTION -> запрет на удаление элементов, если на них ссылаются
+ON DELETE SET NULL -> присваивает ссылающемуся атрибуту NULL (если нет ограничения NOT NULL)
+ON DELETE SET DEFAULT -> при удалении выставляет значение по умолчанию (если оно есть)
+
+	
+Examples:	
+CREATE TABLE test 
+(
+	code char(3) NOT NULL,
+	model text NOT NULL,
+	number_range integer NOT NULL,
+	CHECK (number_range > 0),
+	PRIMARY KEY (code)
+); -> создания таблицы с 3 полями
+
+
+INSERT INTO test (code, model, number_range) 
+VALUES ('ABA', 'Something', 300) -> добавление знач. 
+
+
+SELECT * FROM test -> все записи
+SELECT <запись 1> <запись 2>...
+Можно выбирать отдельные столбцы таблицы и 
+исходить из них
+
+SELECT model, code, number_range FROM
+test ORDER BY code -> берет столбцы таблицы 
+и сортирует их по значению ORDER BY
+
+SELECT model, code, number_range FROM test 
+WHERE (number_range >= 4000 AND number_range <= 6000)
+-> делает выборку, опираясь на условии WHERE
+
+
+UPDATE test SET number_range = 3500
+WHERE code = 'ABA' -> обновляет данные в таблице 
+опираясь на условие
+
+
+DELETE FROM test WHERE code = 'CN1' -> удаляет запись
+по условию
+
+CREATE TABLE test2 
+(
+	code char(3) NOT NULL,
+	seat varchar(4) NOT NULL,
+	typing varchar(10) NOT NULL,
+	CHECK (
+		typing IN ('LITE', 'BASE', 'ADVANCE', 'PROFESSIONAL')
+	),
+	PRIMARY KEY (code, seat),
+	FOREIGN KEY (code)
+	  REFERENCES test (code)
+	  ON DELETE CASCADE
+);
+
+SELECT code, count(*) FROM test2 GROUP BY code
+-> отдаст кол-во записей с по критерию их code
+[примечание: записи, по которым мы считаем нужно 
+обязательно указываеть в селекте (в данном случае 
+code)]
+
+DROP TABLE test -> удаление таблицы
+

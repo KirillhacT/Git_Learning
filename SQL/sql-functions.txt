@@ -1,0 +1,10 @@
+array_append() -> добавляет значение в конец массива
+numeral = array_append(numeral, 10)
+
+array_prepend() -> добавляет значение в начало массива
+numeral = array_prepend(1, numeral)
+
+array_remove() -> удаляет значение из массива
+numeral = array_remove(numeral, 4)
+
+
