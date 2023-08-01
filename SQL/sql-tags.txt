@@ -4,3 +4,9 @@
 NOT - отрицание
 AND - и
 OR - или
+IF - условие
+IN - оператор вхождения
+EXISTS - существует [CREATE TABLE IF NOT EXISTS test (...);]
+:: - приведение типов
+
+

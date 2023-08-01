@@ -3,22 +3,28 @@ CREATE TABLE <table name> (params);
 INSERT INTO <table name> (params) VALUES (values)
 SELECT <rows> FROM <table name>
 UPDATE <table name> SET <old_param> = <new_value> WHERE <condition>
-DROP TABLE <table name>
+DROP TABLE <table name> <delete type>
 DELETE FROM <table name> WHERE <condition>
+ALTER TABLE;
+
 
 key words:
 CHECK (condition) -> проверка валидности новой записи
 NOT NULL -> означает, что запись не может быть пустой
-UNIQUE [уникальный ключ] -> все значения в столбце уникальны
+UNIQUE [уникальный ключ] -> Гарантирует уникальность значения, но не является
+основным индексом в таблице (может содержать пустые значения)
 DEFAULT (value) -> выставляет значение по умолчанию
-PRIMARY KEY -> 
+PRIMARY KEY -> столбец, который идентифицирует каждую запись в таблице. Имеет
+ограничения на уникальности и не может содержать пустые значения (исп. для связывания)
+
 REFERENCES (table_name) [внешний ключ] -> связывает поле с полем другой таблицы
 альтернативная запись REFERENCES:
 	FOREIGN KEY (row_name)
-		REFERENCES (table_name) (row_name)
+		REFERENCES (table_name) (table:row_name)
 		{delete type}
+		{update type}
 
-delete types:
+delete types: (update type -> типы аналогичны)
 ON CASCADE -> при удалении элемента, на которого ссылаемся, удаляются и соответствующие поля
 ON DELETE RESTRICT, ON DELETE NO ACTION -> запрет на удаление элементов, если на них ссылаются
 ON DELETE SET NULL -> присваивает ссылающемуся атрибуту NULL (если нет ограничения NOT NULL)
@@ -83,4 +89,36 @@ SELECT code, count(*) FROM test2 GROUP BY code
 code)]
 
 DROP TABLE test -> удаление таблицы
+
+#test table
+CREATE TABLE IF NOT EXISTS testTable
+(
+	id integer NOT NULL,
+	code varchar(10),
+	data text,
+	PRIMARY KEY (id)
+);
+#test insert	
+INSERT INTO testtable VALUES 
+(1, 'key', 'fjsdfjdshf'),
+(2, 'bomb', 'dfsd'),
+(3, 'lol', 'fddfhdshhf')
+
+
+ALTER TABLE -> модификация таблицы
+ALTER TABLE test ADD COLUMN speed integer -> добавление новой колонки
+ALTER TABLE test ALTER COLUMN speed SET NOT NULL -> устанавливает в колонках speed значение NOT NULL
+ALTER TABLE test ALTER COLUMN speed DROP NOT NULL -> сбрасывает аналогично
+ALTER TABLE test DROP COLUMN test -> удаляет колонку
+ALTER TABLE test ALTER COLUMN data SET DATA TYPE integer
+USING ( CASE WHEN data = NULL THEN 1 ELSE 2 END); -> меняем тип данных
+ALTER TABLE test RENAME COLUMN data TO data_from -> переименовывает имя столбца
+
+// Представления
+CREATE VIEW by_code AS
+	SELECT * FROM testtable ORDER BY code LIMIT 10 -> создание простого представления
+SELECT * FROM by_code -> использование представления
+DROP VIEW by_code -> удаление представления
+
+
 
