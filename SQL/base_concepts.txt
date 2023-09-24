@@ -1,0 +1,35 @@
+CREATE TABLE customer 
+(
+	id serial PRIMARY KEY,
+	name varchar(255) NOT NULL,
+	phone varchar(30),
+	email varchar(30)	
+);
+
+CREATE TABLE product
+(
+	id serial PRIMARY KEY,
+	name varchar(255) NOT NULL,
+	description text,
+	price integer
+);
+
+CREATE TABLE product_photo
+(
+	id serial PRIMARY KEY,
+	url varchar(255),
+	product_id integer references product(id)
+);
+
+CREATE TABLE cart 
+(
+	id serial PRIMARY KEY,
+	customer_id integer references customer(id)
+);
+
+
+CREATE TABLE cart_product
+(
+	cart_id integer references cart(id),
+	product_id integer references product(id)
+);
